@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "iaudio.h"
+
 class RecordAndPlay: public QObject
 {
     Q_OBJECT
@@ -14,7 +16,7 @@ signals:
     void playingChanged();
 
 public:
-    RecordAndPlay();
+    RecordAndPlay(IAudio& recorder, IAudio& player);
     ~RecordAndPlay();
 
     bool recording() const;
@@ -26,7 +28,10 @@ public:
 private:
     enum State { Recording, Playing, Idle };
 
-    void setState(State state);
+    void toggleState(State state, bool doToggle=true);
+
+    IAudio& m_recorder;
+    IAudio& m_player;
 
     State m_state = Idle;
 };

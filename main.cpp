@@ -1,4 +1,5 @@
 #include "recordandplay.h"
+#include "recorder.h"
 
 #include <QGuiApplication>
 #include <QQuickView>
@@ -17,7 +18,10 @@ int main(int argc, char *argv[])
 
     w.setResizeMode(QQuickView::SizeRootObjectToView);
 
-    RecordAndPlay recordAndPlay;
+    Recorder recorder;
+    Recorder player;
+
+    RecordAndPlay recordAndPlay(recorder, player);
     w.engine()->rootContext()->setContextProperty("recordAndPlay", &recordAndPlay);
 
     w.setSource(QUrl("qrc:/main.qml"));
