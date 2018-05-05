@@ -16,7 +16,7 @@ signals:
     void playingChanged();
 
 public:
-    RecordAndPlay(IAudio& recorder, IAudio& player);
+    RecordAndPlay(const QString& targetFileName, IAudio& recorder, IAudio& player);
     ~RecordAndPlay();
 
     bool recording() const;

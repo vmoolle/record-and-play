@@ -9,7 +9,7 @@ Recorder::Recorder()
     : m_audioRecorder(new QAudioRecorder(this))
 {
     QAudioEncoderSettings settings;
-    settings.setCodec("audio/pcm");
+    settings.setCodec("audio/pcm"); // assuming this to be supported on all OSes no matter what
     settings.setQuality(QMultimedia::HighQuality);
 
     m_audioRecorder->setAudioSettings(settings);
@@ -39,6 +39,13 @@ QString Recorder::target() const
 
 void Recorder::setTarget(const QString& target)
 {
+    // will be an empty URL at least on Windows right after being set
+    //
+    // quoting the (terrible :)) docs:
+    //
+    // The location can be relative or empty; in this case the recorder uses the system specific
+    // place and file naming scheme. After recording has stated, QMediaRecorder::outputLocation()
+    // returns the actual output location.
     m_audioRecorder->setOutputLocation(QUrl::fromLocalFile(target));
 }
 

@@ -7,6 +7,8 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 
+const QString targetFileName = "record-and-play.wav";
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
@@ -22,7 +24,7 @@ int main(int argc, char *argv[])
     Recorder recorder;
     Player player;
 
-    RecordAndPlay recordAndPlay(recorder, player);
+    RecordAndPlay recordAndPlay(targetFileName, recorder, player);
     w.engine()->rootContext()->setContextProperty("recordAndPlay", &recordAndPlay);
 
     w.setSource(QUrl("qrc:/main.qml"));

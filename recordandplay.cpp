@@ -1,10 +1,11 @@
 #include "recordandplay.h"
 
+#include <QCoreApplication>
+#include <QDir>
+
 #include <QDebug>
 
-const QString target = "d:/code/record-and-play1.wav";
-
-RecordAndPlay::RecordAndPlay(IAudio &recorder, IAudio &player)
+RecordAndPlay::RecordAndPlay(const QString& targetFileName, IAudio &recorder, IAudio &player)
     : m_recorder(recorder),
       m_player(player)
 {
@@ -29,6 +30,7 @@ RecordAndPlay::RecordAndPlay(IAudio &recorder, IAudio &player)
         toggleState(Idle, false);
     });
 
+    QString target = QDir(QCoreApplication::applicationDirPath()).filePath(targetFileName);
     m_recorder.setTarget(target);
     m_player.setTarget(target);
 }
