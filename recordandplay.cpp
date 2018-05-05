@@ -2,27 +2,35 @@
 
 #include <QDebug>
 
+const QString target = "d:/code/record-and-play1.wav";
+
 RecordAndPlay::RecordAndPlay(IAudio &recorder, IAudio &player)
     : m_recorder(recorder),
       m_player(player)
 {
-    connect(&m_recorder, &IAudio::finished, [this](){
+    Q_ASSERT(!m_recorder.running());
+    Q_ASSERT(!m_player.running());
+
+    connect(&m_recorder, &IAudio::finished, this, [this](){
         qDebug() << this << "RecordAndPlay() / m_recorder / finished()";
         toggleState(Idle, false);
     });
-    connect(&m_recorder, &IAudio::error, [this](const QString& message){
+    connect(&m_recorder, &IAudio::error, this, [this](const QString& message){
         qDebug() << this << "RecordAndPlay() / m_recorder / error(), message:" << message;
         toggleState(Idle, false);
     });
 
-    connect(&m_player, &IAudio::finished, [this](){
+    connect(&m_player, &IAudio::finished, this, [this](){
         qDebug() << this << "RecordAndPlay() / m_player / finished()";
         toggleState(Idle, false);
     });
-    connect(&m_player, &IAudio::error, [this](const QString& message){
+    connect(&m_player, &IAudio::error, this, [this](const QString& message){
         qDebug() << this << "RecordAndPlay() / m_player / error(), message:" << message;
         toggleState(Idle, false);
     });
+
+    m_recorder.setTarget(target);
+    m_player.setTarget(target);
 }
 
 RecordAndPlay::~RecordAndPlay()

@@ -1,16 +1,14 @@
-#ifndef RECORDER_H
-#define RECORDER_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "iaudio.h"
 
-class QAudioRecorder;
-
-class Recorder: public IAudio
+class Player: public IAudio
 {
     Q_OBJECT
 public:
-    Recorder();
-    ~Recorder();
+    Player();
+    ~Player();
 
     QString target() const;
     void setTarget(const QString& target);
@@ -19,10 +17,8 @@ public:
     bool running() const;
 
 private:
-    QAudioRecorder* m_audioRecorder;
-
     QString m_target;
     bool m_running = false;
 };
 
-#endif // RECORDER_H
+#endif // PLAYER_H
