@@ -68,3 +68,12 @@ bool Player::running() const
     return m_running;
 }
 
+double Player::playbackRate() const
+{
+    return m_mediaPlayer->playbackRate();
+}
+
+void Player::setPlaybackRate(double rate)
+{
+    m_mediaPlayer->setPlaybackRate(rate);
+}

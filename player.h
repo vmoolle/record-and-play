@@ -18,6 +18,9 @@ public:
     void toggle();
     bool running() const;
 
+    double playbackRate() const;
+    void setPlaybackRate(double rate);
+
 private:
     QMediaPlayer* m_mediaPlayer;
 

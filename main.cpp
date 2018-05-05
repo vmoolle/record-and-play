@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
 
     Recorder recorder;
     Player player;
+    player.setPlaybackRate(1.2);
 
     RecordAndPlay recordAndPlay(recorder, player);
     w.engine()->rootContext()->setContextProperty("recordAndPlay", &recordAndPlay);
