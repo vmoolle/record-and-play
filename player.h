@@ -3,6 +3,8 @@
 
 #include "iaudio.h"
 
+class QMediaPlayer;
+
 class Player: public IAudio
 {
     Q_OBJECT
@@ -17,6 +19,8 @@ public:
     bool running() const;
 
 private:
+    QMediaPlayer* m_mediaPlayer;
+
     QString m_target;
     bool m_running = false;
 };

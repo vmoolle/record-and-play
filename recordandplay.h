@@ -16,7 +16,7 @@ signals:
     void playingChanged();
 
 public:
-    RecordAndPlay(const QString& targetFileName, IAudio& recorder, IAudio& player);
+    RecordAndPlay(IAudio& recorder, IAudio& player);
     ~RecordAndPlay();
 
     bool recording() const;
@@ -29,11 +29,13 @@ private:
     enum State { Recording, Playing, Idle };
 
     void toggleState(State state, bool doToggle=true);
+    void setNewTargetFileName();
 
     IAudio& m_recorder;
     IAudio& m_player;
 
     State m_state = Idle;
+    QString m_targetFileName;
 };
 
 #endif // RECORDANDPLAY_H

@@ -1,7 +1,9 @@
 #include "recorder.h"
 
 #include <QAudioRecorder>
+#include <QFile>
 #include <QUrl>
+#include <QTimer>
 
 #include <QDebug>
 
@@ -21,8 +23,11 @@ Recorder::Recorder()
         qDebug() << this << "Recorder() / m_audioRecorder / statusChanged(), status:" << status
                  << "error:" << err;
 
-        if (err != QAudioRecorder::NoError) {
-            emit error(m_audioRecorder->errorString());
+        if (m_running) {
+            if (err != QAudioRecorder::NoError) {
+                m_running = false;
+                emit error(m_audioRecorder->errorString());
+            }
         }
     });
 }
@@ -39,6 +44,13 @@ QString Recorder::target() const
 
 void Recorder::setTarget(const QString& target)
 {
+    if (m_target == target)
+        return;
+
+    m_target = target;
+
+    // Can't open output location
+
     // will be an empty URL at least on Windows right after being set
     //
     // quoting the (terrible :)) docs:
