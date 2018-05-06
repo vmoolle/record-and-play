@@ -10,18 +10,7 @@
 Recorder::Recorder()
     : m_audioRecorder(new QAudioRecorder(this))
 {
-    QAudioEncoderSettings settings;
-    // assuming this to be supported on all OSes no matter what
-    // ..would in fact be incorrect :)
-    // -- as capitalization (reportedly) matters (on Linux), see:
-    // https://forum.qt.io/topic/42541/recording-audio-using-qtaudiorecorder/3
-    settings.setCodec("audio/PCM");
-    settings.setQuality(QMultimedia::HighQuality);
-
-    m_audioRecorder->setAudioSettings(settings);
-    // not having this apparently gives people problems on Linux
-    // (see the link above)
-    m_audioRecorder->setContainerFormat("wav");
+    setupAudioRecorder();
 
     connect(m_audioRecorder, &QAudioRecorder::statusChanged, this, [this](){
         auto status = m_audioRecorder->status();
@@ -83,4 +72,47 @@ void Recorder::toggle()
 bool Recorder::running() const
 {
     return m_running;
+}
+
+void Recorder::setupAudioRecorder()
+{
+    auto inputs = m_audioRecorder->audioInputs();
+    auto codecs = m_audioRecorder->supportedAudioCodecs();
+    auto containers = m_audioRecorder->supportedContainers();
+    auto sampleRates = m_audioRecorder->supportedAudioSampleRates();
+
+    qDebug() << this << "setupAudioRecorder() -- inputs:\n" << inputs << "\n"
+             << "codecs:\n" << codecs << "\n"
+             << "containers:\n" << containers << "\n"
+             << "sampleRates:\n" << sampleRates << "\n";
+
+    QString input = inputs.value(0);
+    QString codec = codecs.value(0);
+    QString container = containers.value(0);
+    int sampleRate = sampleRates.value(0);
+
+    qDebug() << this << "setupAudioRecorder() -- input:" << input << "\n"
+             << "codec:" << codec << "\n"
+             << "container:" << container << "\n"
+             << "sampleRate:" << sampleRate << "\n";
+
+    QAudioEncoderSettings settings;
+    settings.setCodec(codec);
+    settings.setSampleRate(sampleRate);
+
+    m_audioRecorder->setAudioInput(input);
+    m_audioRecorder->setEncodingSettings(settings, QVideoEncoderSettings(), container);
+
+//    QAudioEncoderSettings settings;
+//    // assuming this to be supported on all OSes no matter what
+//    // ..would in fact be incorrect :)
+//    // -- as capitalization (reportedly) matters (on Linux), see:
+//    // https://forum.qt.io/topic/42541/recording-audio-using-qtaudiorecorder/3
+//    settings.setCodec("audio/PCM");
+//    settings.setQuality(QMultimedia::HighQuality);
+
+//    m_audioRecorder->setAudioSettings(settings);
+//    // not having this apparently gives people problems on Linux
+//    // (see the link above)
+//    m_audioRecorder->setContainerFormat("wav");
 }

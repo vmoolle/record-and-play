@@ -19,6 +19,8 @@ public:
     bool running() const;
 
 private:
+    void setupAudioRecorder();
+
     QAudioRecorder* m_audioRecorder;
 
     QString m_target;
