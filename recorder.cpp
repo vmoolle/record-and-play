@@ -11,10 +11,14 @@ Recorder::Recorder()
     : m_audioRecorder(new QAudioRecorder(this))
 {
     QAudioEncoderSettings settings;
-    settings.setCodec("audio/pcm"); // assuming this to be supported on all OSes no matter what
+    // assuming this to be supported on all OSes no matter what
+    settings.setCodec("audio/pcm");
     settings.setQuality(QMultimedia::HighQuality);
 
     m_audioRecorder->setAudioSettings(settings);
+    // not having this apparently gives people problems on Linux, i.e.:
+    // https://forum.qt.io/topic/42541/recording-audio-using-qtaudiorecorder/3
+    m_audioRecorder->setContainerFormat("wav");
 
     connect(m_audioRecorder, &QAudioRecorder::statusChanged, this, [this](){
         auto status = m_audioRecorder->status();

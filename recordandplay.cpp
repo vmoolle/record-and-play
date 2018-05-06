@@ -14,7 +14,6 @@ RecordAndPlay::RecordAndPlay(IAudio &recorder, IAudio &player)
       m_player(player)
 {
     Q_ASSERT(!m_recorder.running());
-    qDebug() << "*** m_player.running():" << m_player.running();
     Q_ASSERT(!m_player.running());
 
     connect(&m_recorder, &IAudio::finished, this, [this](){
