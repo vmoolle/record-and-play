@@ -45,8 +45,6 @@ void Recorder::setTarget(const QString& target)
 
     m_target = target;
 
-    // Can't open output location
-
     // will be an empty URL at least on Windows right after being set
     //
     // quoting the (terrible :)) docs:
