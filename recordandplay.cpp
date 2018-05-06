@@ -52,6 +52,8 @@ bool RecordAndPlay::playing() const
 
 void RecordAndPlay::requestRecordingToggle()
 {
+    qDebug() << this << "requestRecordingToggle(), m_state:" << m_state;
+
     if (m_state != Recording) {
         toggleState(Recording);
     } else {
@@ -61,6 +63,8 @@ void RecordAndPlay::requestRecordingToggle()
 
 void RecordAndPlay::requestPlayingToggle()
 {
+    qDebug() << this << "requestPlayingToggle(), m_state:" << m_state;
+
     if (m_state != Playing) {
         toggleState(Playing);
     } else {
