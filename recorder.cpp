@@ -86,8 +86,12 @@ void Recorder::setupAudioRecorder()
 
     QString input = inputs.value(0);
     QString codec = codecs.value(0);
+
     QString container = containers.value(0);
+    if (!container.startsWith("audio")) container = "audio/x-wav";
+
     int sampleRate = sampleRates.value(0);
+    if (sampleRate == 0) sampleRate = 8000;
 
     qDebug() << this << "setupAudioRecorder() -- input:" << input << "\n"
              << "codec:" << codec << "\n"
